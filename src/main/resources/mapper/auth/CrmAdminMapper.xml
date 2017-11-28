@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fxl.application.auth.mapper.CrmAdminMapper">
+	<resultMap id="BaseResultMap" type="com.fxl.application.auth.model.po.CrmAdmin">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="is_enabled" property="isEnabled" jdbcType="BIT" />
+		<result column="is_locked" property="isLocked" jdbcType="BIT" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="login_failure_count" property="loginFailureCount"
+			jdbcType="INTEGER" />
+		<result column="locked_date" property="lockedDate" jdbcType="TIMESTAMP" />
+		<result column="login_date" property="loginDate" jdbcType="TIMESTAMP" />
+		<result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+		<result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
+		<result column="doctor_id" property="doctorId" jdbcType="INTEGER" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, email, is_enabled, is_locked, username, password, name,
+		login_failure_count,
+		locked_date, login_date, add_time, login_ip,
+		doctor_id, update_date, is_delete
+	</sql>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from crm_admin
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from crm_admin
+		where id
+		= #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.fxl.application.auth.model.po.CrmAdmin">
+		insert into crm_admin (email,
+		is_enabled,
+		is_locked, username, password,
+		name, login_failure_count,
+		locked_date,
+		login_date, add_time, login_ip,
+		doctor_id, update_date,
+		is_delete
+		)
+		values (#{email,jdbcType=VARCHAR},
+		#{isEnabled,jdbcType=BIT},
+		#{isLocked,jdbcType=BIT},
+		#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR}, #{loginFailureCount,jdbcType=INTEGER},
+		#{lockedDate,jdbcType=TIMESTAMP},
+		#{loginDate,jdbcType=TIMESTAMP},
+		#{addTime,jdbcType=TIMESTAMP}, #{loginIp,jdbcType=VARCHAR},
+		#{doctorId,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP},
+		#{isDelete,jdbcType=INTEGER}
+		)
+	</insert>
+	<update id="update" parameterType="com.fxl.application.auth.model.po.CrmAdmin">
+		update crm_admin
+		<set>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="isEnabled != null">
+				is_enabled = #{isEnabled,jdbcType=BIT},
+			</if>
+			<if test="isLocked != null">
+				is_locked = #{isLocked,jdbcType=BIT},
+			</if>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="loginFailureCount != null">
+				login_failure_count =
+				#{loginFailureCount,jdbcType=INTEGER},
+			</if>
+			<if test="lockedDate != null">
+				locked_date = #{lockedDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loginDate != null">
+				login_date = #{loginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="addTime != null">
+				add_time = #{addTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loginIp != null">
+				login_ip = #{loginIp,jdbcType=VARCHAR},
+			</if>
+			<if test="doctorId != null">
+				doctor_id = #{doctorId,jdbcType=INTEGER},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 通过username查询用户信息 -->
+	<select id="findCrmByUName" resultMap="BaseResultMap"
+		parameterType="String">
+		select
+		<include refid="Base_Column_List"></include>
+		from crm_admin where username=#{value} and is_delete=0
+	</select>
+</mapper>
